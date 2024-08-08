@@ -1,12 +1,14 @@
-require('dotenv').config();
+require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 const express = require('express');
-const sequelize = require('./sequelize'); // Importando a instância de sequelize
+const sequelize = require('./sequelize');
 const userRoutes = require('./routes/userRoutes');
+const taskRoutes = require('./routes/taskRoutes'); // Importando as rotas de tarefas
 
 const app = express();
 app.use(express.json());
 
 app.use('/api/user', userRoutes);
+app.use('/api/tasks', taskRoutes); // Adicionando as rotas de tarefas
 
 async function checkConnection() {
   try {
