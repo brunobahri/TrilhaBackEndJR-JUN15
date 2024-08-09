@@ -9,4 +9,4 @@ const sequelize = new Sequelize({
   storage: dbPath
 });
 
-module.exports = sequelize;
+module.exports = sequelize
