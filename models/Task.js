@@ -26,7 +26,8 @@ const Task = sequelize.define('Task', {
 });
 
 // Relacionamento: Um usuário pode ter muitas tarefas
-User.hasMany(Task, { onDelete: 'CASCADE' });
-Task.belongsTo(User);
+// O relacionamento abaixo deve ser definido no modelo User ou em uma configuração separada
+User.hasMany(Task, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Task.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Task;

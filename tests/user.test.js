@@ -1,15 +1,27 @@
-// tests/user.test.js
+process.env.JWT_SECRET = 'minha_chave_secreta_para_testes';
+process.env.DB_TEST_PATH = './data/testdb.sqlite';
+
 const request = require('supertest');
-const app = require('../app'); // Importa o aplicativo Express do app.js
+const app = require('../app');
+const sequelize = require('../sequelize');
+const User = require('../models/User');
 
 describe('User API Endpoints', () => {
   let server;
-  beforeAll((done) => {
-    server = app.listen(4000, done); // Inicia o servidor em uma porta diferente para testes
+
+  beforeAll(async () => {
+    server = await app.listen(4000);
   });
 
-  afterAll((done) => {
-    server.close(done); // Fecha o servidor após os testes
+  afterAll(async () => {
+    await server.close();
+    await sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await sequelize.query('PRAGMA foreign_keys = OFF'); // Desabilita as chaves estrangeiras
+    await User.destroy({ where: {}, truncate: true }); // Limpa a tabela de usuários
+    await sequelize.query('PRAGMA foreign_keys = ON'); // Reabilita as chaves estrangeiras
   });
 
   it('should create a new user', async () => {
@@ -19,6 +31,7 @@ describe('User API Endpoints', () => {
         username: 'testuser',
         password: 'testpassword'
       });
+    console.log('Resposta ao criar usuário:', res.body);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('message', 'Usuário criado com sucesso');
     expect(res.body.user).toHaveProperty('username', 'testuser');
@@ -38,6 +51,7 @@ describe('User API Endpoints', () => {
         username: 'duplicateuser',
         password: 'testpassword'
       });
+    console.log('Resposta ao tentar criar usuário duplicado:', res.body);
     expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty('message', 'Usuário já existe');
   });
@@ -56,6 +70,7 @@ describe('User API Endpoints', () => {
         username: 'loginuser',
         password: 'testpassword'
       });
+    console.log('Resposta ao fazer login:', res.body);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('message', 'Login realizado com sucesso');
     expect(res.body).toHaveProperty('token');
@@ -75,6 +90,7 @@ describe('User API Endpoints', () => {
         username: 'wrongpassworduser',
         password: 'wrongpassword'
       });
+    console.log('Resposta ao tentar login com senha errada:', res.body);
     expect(res.statusCode).toEqual(401);
     expect(res.body).toHaveProperty('message', 'Senha inválida');
   });
@@ -82,6 +98,7 @@ describe('User API Endpoints', () => {
   it('should logout a user', async () => {
     const res = await request(server)
       .get('/api/user/logout');
+    console.log('Resposta ao fazer logout:', res.body);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('message', 'Logout realizado com sucesso');
   });
