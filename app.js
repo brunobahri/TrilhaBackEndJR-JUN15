@@ -3,26 +3,17 @@ const express = require('express');
 const sequelize = require('./sequelize');
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes'); // Importando as rotas de tarefas
+const rateLimiter = require('./middleware/rateLimiter'); // Importando o middleware de limitação de requisições
 
 const app = express();
 app.use(express.json());
 
+// Aplica o middleware de limitação de requisições globalmente
+app.use(rateLimiter);
+
 app.use('/api/user', userRoutes);
 app.use('/api/tasks', taskRoutes); // Adicionando as rotas de tarefas
 
-async function checkConnection() {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+// Remove a função checkConnection daqui
 
-    // Sincronizando os modelos com o banco de dados
-    await sequelize.sync();
-    console.log('Database synchronized.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-}
-
-checkConnection();
-
-module.exports = app;
+module.exports = { app, sequelize };
