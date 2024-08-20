@@ -1,0 +1,22 @@
+# flyctl launch added from .gitignore
+# Dependências
+**/node_modules
+
+# Arquivos de log
+**/npm-debug.log
+**/yarn-error.log
+
+# Arquivos de ambiente
+**/.env
+
+# Arquivos de banco de dados
+**/*.sqlite
+**/*.sqlite3
+
+# Diretório de build
+dist
+
+# Outros arquivos e diretórios
+**/.DS_Store
+**/Thumbs.db
+fly.toml

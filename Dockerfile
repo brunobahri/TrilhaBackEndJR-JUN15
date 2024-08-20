@@ -1,5 +1,5 @@
 # Usar uma imagem base oficial do Node.js
-FROM node:20 as base
+FROM node:20
 
 # Definir o diretório de trabalho no container
 WORKDIR /usr/src/app
@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Instalar as dependências
-RUN npm install
+RUN npm install --production
 
 # Copiar o restante do código para o container
 COPY . .
@@ -19,7 +19,7 @@ EXPOSE 3000
 # Comando padrão para rodar a aplicação em produção
 CMD ["npm", "start"]
 
-# Estágio de teste
-FROM base as test
-ENV NODE_ENV=test
-CMD ["npm", "test"]
+# Comando específico para testes (remova ou comente esta parte)
+# FROM node:20 as test
+# ENV NODE_ENV=test
+# CMD ["npm", "test"]
