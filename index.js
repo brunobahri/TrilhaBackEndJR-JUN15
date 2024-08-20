@@ -1,4 +1,5 @@
-const { app, sequelize } = require('./app'); // Importa tanto o app quanto a instância do sequelize
+const app = require('./app'); // Importa a instância do Express
+const sequelize = require('./sequelize'); // Importa a instância do sequelize
 
 async function startServer() {
   try {
