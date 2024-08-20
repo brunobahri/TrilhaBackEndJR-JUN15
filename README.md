@@ -87,7 +87,7 @@ Erros Possíveis:
   "message": "Senha inválida"
 }
 ```
-Logout de um usuário
+### Logout de um usuário
 
 **Endpoint:** /api/user/logout
 
@@ -135,7 +135,7 @@ Resposta de Sucesso:
   }
 }
 ```
-Buscar todas as tarefas do usuário autenticado
+### Buscar todas as tarefas do usuário autenticado
 
 **Endpoint:** /api/tasks
 
@@ -161,9 +161,9 @@ Resposta de Sucesso:
   }
 ]
 ```
-Atualizar uma tarefa
+### Atualizar uma tarefa
 
-Endpoint: /api/tasks/:id
+**Endpoint:** /api/tasks/:id
 
 **Método:** PUT
 
