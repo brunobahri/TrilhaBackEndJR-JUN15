@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      target: ${TARGET:-base} # Usará o estágio 'base' como padrão, mas permitirá substituição
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: ${NODE_ENV:-development} # Usará 'development' como padrão, mas permitirá substituição

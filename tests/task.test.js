@@ -25,6 +25,9 @@ describe('Task API Endpoints', () => {
     });
     userId = user.id;
 
+    // Verifique se o usuário foi criado corretamente
+    expect(userId).toBeDefined();
+
     // Gera o token JWT para o usuário
     token = generateTestToken(user.id);
   });
@@ -46,6 +49,7 @@ describe('Task API Endpoints', () => {
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('message', 'Tarefa criada com sucesso');
     expect(res.body.task).toHaveProperty('title', 'Minha tarefa de teste');
+    expect(res.body.task).toHaveProperty('userId', userId); // Adicione esta verificação
   });
 
   it('should get all tasks for the authenticated user', async () => {
@@ -78,6 +82,7 @@ describe('Task API Endpoints', () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('message', 'Tarefa atualizada com sucesso');
     expect(res.body.task).toHaveProperty('completed', true);
+    expect(res.body.task).toHaveProperty('userId', userId); // Adicione esta verificação
   });
 
   it('should delete a task', async () => {
