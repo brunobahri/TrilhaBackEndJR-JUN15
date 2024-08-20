@@ -3,97 +3,213 @@
 # 📚 Trilha Inicial BackEnd Jr
 Este projeto tem como objetivo desenvolver uma API RESTful para gerenciamento de tarefas, proporcionando funcionalidades de CRUD (Create, Read, Update, Delete) de tarefas, autenticação de usuários e armazenamento dos dados em um banco de dados.
 
-## Objetivos:
-- Criar uma API que permita CRUD (Create, Read, Update, Delete) de tarefas.
-- Implementar autenticação de usuários.
-- Utilizar um banco de dados SQLite para armazenar as tarefas.
-- Documentar todo o processo e apresentar as conclusões.
+# Documentação da API
 
-## Requisitos Funcionais:
-- Criar Tarefa: Endpoint para criar uma nova tarefa.
-- Listar Tarefas: Endpoint para listar todas as tarefas.
-- Atualizar Tarefa: Endpoint para atualizar uma tarefa existente.
-- Deletar Tarefa: Endpoint para deletar uma tarefa existente.
+Esta API fornece funcionalidades de gerenciamento de usuários e tarefas. A autenticação é feita usando tokens JWT.
 
-## Autenticação de Usuários:
-- Registro de Usuário: Endpoint para registrar um novo usuário.
-- Login de Usuário: Endpoint para autenticar um usuário e gerar um token JWT.
-- Proteção de Rotas: Garantir que apenas usuários autenticados possam acessar os endpoints de tarefas.
+## Endpoints de Usuários
 
-## Banco de Dados:
-- Utilizar SQLite como banco de dados para armazenar informações de usuários e tarefas.
+### Criar um novo usuário
 
-   #### Estrutura do Projeto:
-   ```plaintext
-   project-root/
-   │
-   ├── src/
-   │   ├── controllers/
-   │   ├── models/
-   │   ├── routes/
-   │   ├── middlewares/
-   │   ├── database/
-   │   └── app.js
-   │
-   ├── .env
-   ├── .gitignore
-   ├── README.md
-   └── package.json
-   ```
-## Entregáveis:
-   1. **Código Fonte:**
-      - Código fonte do projeto, organizado conforme a estrutura acima.
-   2. **Repositório GitHub:**
-      - Repositório público contendo o código fonte e documentação.
-   3. **Documentação:**
-      - README.md com instruções sobre como configurar e executar o projeto, além de detalhes dos endpoints da API.
+**Endpoint:** `/api/user/register`
 
-### Detalhes Técnicos: 🔧
-- **Boas Práticas:** Utilizar boas práticas de código limpo, legível e bem documentado.
-- **Git:** Utilizar Git para controle de versão e submeter o projeto através de um repositório público no GitHub.
+**Método:** `POST`
 
-### Dicas para Abordar o Projeto 🌟
-- **Crie um Fork desse Repositório.**
-- **Criar do Zero:** É fundamental que o projeto seja desenvolvido completamente do zero, demonstrando suas habilidades e criatividade desde o início.
-- **Utilize bibliotecas** como Express para criação da API e jsonwebtoken para autenticação.
-- **Documente cada etapa do processo para facilitar a compreensão.**
+**Corpo da Requisição:**
 
-### Critérios de Avaliação: 📝
-- **Funcionalidade:** A aplicação atende aos requisitos funcionais e funciona corretamente?
-- **Qualidade do Código:** O código é limpo, bem estruturado e adequadamente documentado?
-- **Segurança:** A autenticação foi implementada corretamente e as rotas estão protegidas?
-- **Uso do Git:** O controle de versão é usado de forma eficaz com mensagens de commit significativas?
-- **Documentação:** A documentação é clara e detalha o processo de desenvolvimento e uso da API?
+```json
+{
+  "username": "testuser",
+  "password": "testpassword"
+}
+```
 
-### Não Queremos 🚫
-- Descobrir que o candidato não foi quem realizou o teste.
-- Ver commits grandes sem muita explicação nas mensagens no repositório.
-- Entregas padrão ou cópias de outros projetos. Buscamos originalidade e autenticidade em cada contribuição.
+Resposta de Sucesso:
 
-### Prazo ⏳
-A data máxima para entrega das trilhas foi removida, permitindo que as pessoas entreguem conforme sua disponibilidade. No entanto, ainda é necessário concluir a trilha com sucesso para ser inserido em uma equipe.
+    Status: 201 Created
+    Corpo:
 
-### Instruções de Entrega: 📬
-Após finalizar o projeto, publique-o em uma URL pública (por exemplo, Vercel, Netlify, GitHub Pages, etc.) e hospede o seu servidor na nuvem. Use serviços que ofereçam uso gratiuto por um período, como a AWS e preencha o [Formulário](https://forms.gle/gZViPMTSDV5nidSu6):  
+json
 
----
+{
+  "message": "Usuário criado com sucesso",
+  "user": {
+    "username": "testuser"
+  }
+}
 
-### Desafio da Inovação 🚀
-Achou esse projeto inicial simples? Eleve ainda mais! Estamos em busca de mentes inovadoras que não apenas criem, mas que também desafiem os padrões. Como você pode transformar essa estrutura inicial em algo verdadeiramente extraordinário? Demonstre o poder da sua criatividade e o impacto das suas ideias inovadoras!
+Erros Possíveis:
 
----
+    Status: 400 Bad Request
+    Corpo:
 
-🔗 **Mantenha-se Conectado:**
-- [Discord](https://discord.gg/wzA9FGZHNv)
-- [Website](http://www.codigocertocoders.com.br/)
-- [LinkedIn](https://www.linkedin.com/company/codigocerto/)
-  
-🌐 **Contato:**
-- Email: codigocertocoders@gmail.com
+json
 
----
+{
+  "message": "Usuário já existe"
+}
 
-### Precisa de Ajuda?
-Está com alguma dificuldade, encontrou algum problema no desafio ou tem alguma sugestão pra gente? Crie uma issue e descreva o que achar necessário.
+Login de um usuário
 
-**Construindo o amanhã, hoje.**
+Endpoint: /api/user/login
+
+Método: POST
+
+Corpo da Requisição:
+
+json
+
+{
+  "username": "loginuser",
+  "password": "testpassword"
+}
+
+Resposta de Sucesso:
+
+    Status: 200 OK
+    Corpo:
+
+json
+
+{
+  "message": "Login realizado com sucesso",
+  "token": "eyJhbGciOiJIUzI1NiIsInR..."
+}
+
+Erros Possíveis:
+
+    Status: 401 Unauthorized
+    Corpo:
+
+json
+
+{
+  "message": "Senha inválida"
+}
+
+Logout de um usuário
+
+Endpoint: /api/user/logout
+
+Método: GET
+
+Resposta de Sucesso:
+
+    Status: 200 OK
+    Corpo:
+
+json
+
+{
+  "message": "Logout realizado com sucesso"
+}
+
+Endpoints de Tarefas
+Criar uma nova tarefa
+
+Endpoint: /api/tasks
+
+Método: POST
+
+Autenticação: Necessário token JWT no cabeçalho Authorization (Bearer <token>)
+
+Corpo da Requisição:
+
+json
+
+{
+  "title": "Minha tarefa de teste",
+  "description": "Descrição da tarefa de teste"
+}
+
+Resposta de Sucesso:
+
+    Status: 201 Created
+    Corpo:
+
+json
+
+{
+  "message": "Tarefa criada com sucesso",
+  "task": {
+    "title": "Minha tarefa de teste",
+    "userId": 1
+  }
+}
+
+Buscar todas as tarefas do usuário autenticado
+
+Endpoint: /api/tasks
+
+Método: GET
+
+Autenticação: Necessário token JWT no cabeçalho Authorization (Bearer <token>)
+
+Resposta de Sucesso:
+
+    Status: 200 OK
+    Corpo:
+
+json
+
+[
+  {
+    "id": 1,
+    "title": "Tarefa de teste",
+    "description": "Descrição da tarefa",
+    "completed": false,
+    "userId": 1,
+    "createdAt": "2024-08-20T01:53:47.956Z",
+    "updatedAt": "2024-08-20T01:53:47.956Z"
+  }
+]
+
+Atualizar uma tarefa
+
+Endpoint: /api/tasks/:id
+
+Método: PUT
+
+Autenticação: Necessário token JWT no cabeçalho Authorization (Bearer <token>)
+
+Corpo da Requisição:
+
+json
+
+{
+  "completed": true
+}
+
+Resposta de Sucesso:
+
+    Status: 200 OK
+    Corpo:
+
+json
+
+{
+  "message": "Tarefa atualizada com sucesso",
+  "task": {
+    "completed": true,
+    "userId": 1
+  }
+}
+
+Deletar uma tarefa
+
+Endpoint: /api/tasks/:id
+
+Método: DELETE
+
+Autenticação: Necessário token JWT no cabeçalho Authorization (Bearer <token>)
+
+Resposta de Sucesso:
+
+    Status: 200 OK
+    Corpo:
+
+json
+
+{
+  "message": "Tarefa deletada com sucesso"
+}
